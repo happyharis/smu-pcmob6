@@ -18,6 +18,7 @@ export default function AccountStack() {
           title: "Your Account",
           headerStyle: styles.header,
           headerTitleStyle: styles.headerTitle,
+          headerLeft: null,
         }}
       />
       <Stack.Screen

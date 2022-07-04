@@ -21,7 +21,7 @@ export default function BlogStack() {
       <InnerStack.Screen
         name="Index"
         component={IndexScreen}
-        options={{ title: "Blog", ...headerOptions }}
+        options={{ title: "Blog", ...headerOptions, headerLeft: null }}
       />
       <InnerStack.Screen
         name="Add"
