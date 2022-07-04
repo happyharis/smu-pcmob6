@@ -74,7 +74,7 @@ export default function IndexScreen({ navigation, route }) {
   function renderItem({ item }) {
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate("Details", { post: item })}
+        onPress={() => navigation.navigate("Details", { id: item.id })}
       >
         <View
           style={{
