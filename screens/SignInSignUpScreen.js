@@ -79,12 +79,25 @@ export default function SignInSignUpScreen({ navigation }) {
           onChangeText={(pw) => setPassword(pw)}
         />
       </View>
-      <View />
+
+      {isLogIn ? (
+        <View />
+      ) : (
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Confirm Password:"
+            placeholderTextColor="#003f5c"
+            secureTextEntry={true}
+            onChangeText={(pw) => setConfirmPassword(pw)}
+          />
+        </View>
+      )}
+
       <View>
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity style={styles.button} onPress={login}>
             <Text style={styles.buttonText}>
-              {" "}
               {isLogIn ? "Log In" : "Sign Up"}{" "}
             </Text>
           </TouchableOpacity>
