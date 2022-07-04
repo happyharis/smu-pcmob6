@@ -83,7 +83,10 @@ export default function SignInSignUpScreen({ navigation }) {
       <View>
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity style={styles.button} onPress={login}>
-            <Text style={styles.buttonText}> Log In </Text>
+            <Text style={styles.buttonText}>
+              {" "}
+              {isLogIn ? "Log In" : "Sign Up"}{" "}
+            </Text>
           </TouchableOpacity>
           {loading ? (
             <ActivityIndicator style={{ marginLeft: 10 }} />
@@ -93,6 +96,19 @@ export default function SignInSignUpScreen({ navigation }) {
         </View>
       </View>
       <Text style={styles.errorText}>{errorText}</Text>
+
+      <TouchableOpacity
+        onPress={() => {
+          setIsLogIn(!isLogIn);
+          setErrorText("");
+        }}
+      >
+        <Text style={styles.switchText}>
+          {isLogIn
+            ? "No account? Sign up now."
+            : "Already have an account? Log in here."}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
