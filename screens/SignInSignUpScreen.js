@@ -9,6 +9,7 @@ import {
   UIManager,
   ActivityIndicator,
   Keyboard,
+  LayoutAnimation,
 } from "react-native";
 import { API, API_LOGIN } from "../constants/API";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -112,6 +113,11 @@ export default function SignInSignUpScreen({ navigation }) {
 
       <TouchableOpacity
         onPress={() => {
+          LayoutAnimation.configureNext({
+            duration: 700, // milli seconds
+            create: { type: "linear", property: "opacity" },
+            update: { type: "spring", springDamping: 0.2 },
+          });
           setIsLogIn(!isLogIn);
           setErrorText("");
         }}
