@@ -3,6 +3,7 @@ export const LOG_OUT = "LOG_OUT";
 
 export const logInAction = (payload) => ({
   // TODO: 1. Add type login action
+  type: LOG_IN,
   payload,
 });
 
@@ -11,7 +12,9 @@ export const logOutAction = (payload) => ({
   payload,
 });
 
-const initialState = {};
+const initialState = {
+  token: null,
+};
 
 export default function blogAuthReducer(state = initialState, action) {
   switch (action) {
