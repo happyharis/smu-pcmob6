@@ -1,5 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Provider, useSelector } from "react-redux";
 import LoggedInStack from "./components/LoggedInTabStack";
@@ -10,9 +11,12 @@ const Stack = createStackNavigator();
 
 function App() {
   const token = useSelector((state) => state.auth.token);
+  const isDark = useSelector((state) => state.accountPrefs.isDark);
+
   console.log("token: " + token);
   return (
     <NavigationContainer>
+      <StatusBar style={isDark ? "light" : "dark"} />
       <Stack.Navigator
         initialRouteName={token != null ? "Logged In" : "SignInSignUp"}
         screenOptions={{
