@@ -8,12 +8,13 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API, API_POSTS } from "../constants/API";
 import { lightStyles } from "../styles/commonStyles";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 export default function IndexScreen() {
+  const token = useSelector((state) => state.auth.token);
   const navigation = useNavigation();
   const [posts, setPosts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -46,7 +47,6 @@ export default function IndexScreen() {
   }, []);
 
   async function getPosts() {
-    const token = await AsyncStorage.getItem("token");
     try {
       const response = await axios.get(API + API_POSTS, {
         headers: { Authorization: `JWT ${token}` },
@@ -73,7 +73,7 @@ export default function IndexScreen() {
   }
 
   async function deletePost(id) {
-    const token = await AsyncStorage.getItem("token");
+    const token = useSelector((state) => state.auth.token);
     console.log("Deleting " + id);
     try {
       const response = await axios.delete(API + API_POSTS + `/${id}`, {

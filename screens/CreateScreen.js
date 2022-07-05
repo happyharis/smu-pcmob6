@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { useState } from "react";
 import {
@@ -13,15 +13,16 @@ import { commonStyles, lightStyles } from "../styles/commonStyles";
 
 export default function CreateScreen({ navigation }) {
   const styles = { ...lightStyles, ...commonStyles };
-
+  const token = useSelector((state) => state.auth.token);
+  console.log("token: " + token);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
   async function savePost() {
     const post = {
       title: title,
       content: content,
     };
-    const token = await AsyncStorage.getItem("token");
     try {
       console.log(token);
       const response = await axios.post(API + API_CREATE, post, {

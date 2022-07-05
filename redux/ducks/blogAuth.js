@@ -1,28 +1,35 @@
-export const LOG_IN = "LOG_IN";
-export const LOG_OUT = "LOG_OUT";
+export const LOG_IN = "log_in";
+export const LOG_OUT = "log_out";
 
-export const logInAction = (payload) => ({
-  // TODO: 1. Add type login action
-  type: LOG_IN,
-  payload,
-});
+export function logInAction() {
+  return {
+    type: LOG_IN,
+  };
+}
 
-export const logOutAction = (payload) => ({
-  type: LOG_OUT,
-  payload,
-});
+export function logOutAction() {
+  return {
+    type: LOG_OUT,
+  };
+}
 
 const initialState = {
   token: null,
 };
 
 export default function blogAuthReducer(state = initialState, action) {
-  switch (action) {
+  console.log(state);
+  switch (action.type) {
     case LOG_IN:
-      return { ...state, token: action.payload };
+      return {
+        ...state,
+        token: action.payload,
+      };
     case LOG_OUT:
-      return { ...state, token: null };
-
+      return {
+        ...state,
+        token: null,
+      };
     default:
       return state;
   }
