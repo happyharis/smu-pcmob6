@@ -11,8 +11,19 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API, API_POSTS } from "../constants/API";
 import { lightStyles } from "../styles/commonStyles";
+// import PropTypes from "prop-types";
+import { useNavigation } from "@react-navigation/native";
+// TODO: 2. Add button
+// IndexScreen.propTypes = {
+//   navigation: PropTypes.shape({
+//     navigate: PropTypes.func.isRequired,
+//     setOptions: PropTypes.func.isRequired,
+//     addListener: PropTypes.func.isRequired,
+//   }).isRequired(),
+// };
 
-export default function IndexScreen({ navigation, route }) {
+export default function IndexScreen() {
+  const navigation = useNavigation();
   const [posts, setPosts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const styles = lightStyles;
@@ -62,7 +73,7 @@ export default function IndexScreen({ navigation, route }) {
 
   async function onRefresh() {
     setRefreshing(true);
-    const response = await getPosts();
+    // const response = await getPosts();
     setRefreshing(false);
   }
 

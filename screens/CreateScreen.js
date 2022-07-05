@@ -10,7 +10,15 @@ import axios from "axios";
 import { API, API_CREATE } from "../constants/API";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { lightStyles, commonStyles } from "../styles/commonStyles";
-
+import PropTypes from "prop-types";
+// TODO: 1.2 Add prop type
+CreateScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    setOptions: PropTypes.func.isRequired,
+    addListener: PropTypes.func.isRequired,
+  }).isRequired(),
+};
 export default function CreateScreen({ navigation }) {
   const styles = { ...lightStyles, ...commonStyles };
 
