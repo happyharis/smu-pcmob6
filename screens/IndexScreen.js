@@ -11,6 +11,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API, API_POSTS } from "../constants/API";
 import { lightStyles } from "../styles/commonStyles";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function IndexScreen({ navigation, route }) {
   const [posts, setPosts] = useState([]);
@@ -33,7 +34,14 @@ export default function IndexScreen({ navigation, route }) {
   });
 
   useEffect(() => {
+    console.log("Setting up nav listener");
+    // Check for when we come back to this screen
+    const removeListener = navigation.addListener("focus", () => {
+      console.log("Running nav listener");
+      getPosts();
+    });
     getPosts();
+    return removeListener;
   }, []);
 
   async function getPosts() {
