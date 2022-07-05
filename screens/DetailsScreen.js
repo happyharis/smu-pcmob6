@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+/* eslint-disable react/prop-types */
 import { FontAwesome } from "@expo/vector-icons";
-import { commonStyles, lightStyles } from "../styles/commonStyles";
 import axios from "axios";
-import { API, API_POSTS } from "../constants/API";
+import React, { useEffect, useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
+import { API, API_POSTS } from "../constants/API";
+import { commonStyles, lightStyles, darkStyles } from "../styles/commonStyles";
 
 export default function ShowScreen({ navigation, route }) {
-  const [post, setPost] = useState({ title: "", content: "" });
-  const styles = { ...lightStyles, ...commonStyles };
+  const [post, setPost] = useState({ title: "", body: "" });
   const token = useSelector((state) => state.auth.token);
+  const isDark = useSelector((state) => state.accountPrefs.isDark);
+  const styles = { ...commonStyles, ...(isDark ? darkStyles : lightStyles) };
 
   useEffect(() => {
     navigation.setOptions({
@@ -40,7 +42,7 @@ export default function ShowScreen({ navigation, route }) {
       setPost(response.data);
     } catch (error) {
       console.log(error.response.data);
-      if ((error.response.data.error = "Invalid token")) {
+      if (error.response.data.error == "Invalid token") {
         navigation.navigate("SignInSignUp");
       }
     }

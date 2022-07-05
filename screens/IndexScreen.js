@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  FlatList,
-  RefreshControl,
-} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
-import { API, API_POSTS } from "../constants/API";
-import { lightStyles } from "../styles/commonStyles";
-import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import {
+  FlatList,
+  RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useSelector } from "react-redux";
+import { API, API_POSTS } from "../constants/API";
+import { darkStyles, lightStyles } from "../styles/commonStyles";
 
-export default function IndexScreen() {
-  const token = useSelector((state) => state.auth.token);
-  const navigation = useNavigation();
+export default function IndexScreen({ navigation, route }) {
   const [posts, setPosts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const styles = lightStyles;
+
+  const token = useSelector((state) => state.auth.token);
+  const isDark = useSelector((state) => state.accountPrefs.isDark);
+  const styles = isDark ? darkStyles : lightStyles;
 
   // This is to set up the top right button
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function IndexScreen() {
       return "completed";
     } catch (error) {
       console.log(error.response.data);
-      if (error.response.data.error == "Invalid token") {
+      if ((error.response.data.error = "Invalid token")) {
         navigation.navigate("SignInSignUp");
       }
     }
@@ -64,7 +64,7 @@ export default function IndexScreen() {
 
   async function onRefresh() {
     setRefreshing(true);
-    // const response = await getPosts();
+    const response = await getPosts();
     setRefreshing(false);
   }
 

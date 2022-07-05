@@ -4,7 +4,7 @@ import blogAuthReducer from "./ducks/blogAuth";
 
 const reducer = combineReducers({
   auth: blogAuthReducer,
-  accountPref: accountPrefReducer,
+  accountPrefs: accountPrefReducer,
 });
 
 const store = createStore(reducer);

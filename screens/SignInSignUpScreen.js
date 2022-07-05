@@ -1,19 +1,18 @@
+import axios from "axios";
 import React, { useState } from "react";
 import {
-  Platform,
+  ActivityIndicator,
+  Keyboard,
+  LayoutAnimation,
   StyleSheet,
-  View,
   Text,
   TextInput,
   TouchableOpacity,
   UIManager,
-  ActivityIndicator,
-  Keyboard,
-  LayoutAnimation,
+  View,
 } from "react-native";
-import { API, API_LOGIN, API_SIGNUP } from "../constants/API";
-import axios from "axios";
 import { useDispatch } from "react-redux";
+import { API, API_LOGIN, API_SIGNUP } from "../constants/API";
 import { logInAction } from "../redux/ducks/blogAuth";
 
 if (
@@ -24,13 +23,16 @@ if (
 } //Needs to be manually enabled for android
 
 export default function SignInSignUpScreen({ navigation }) {
-  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
+
   const [isLogIn, setIsLogIn] = useState(true);
+
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const dispatch = useDispatch();
 
   async function login() {
     console.log("---- Login time ----");
@@ -43,23 +45,15 @@ export default function SignInSignUpScreen({ navigation }) {
         password,
       });
       console.log("Success logging in!");
-      // console.log(response);
-      dispatch({
-        ...logInAction(),
-        payload: response.data.access_token,
-      });
+      console.log(response.data.access_token);
+      dispatch({ ...logInAction(), payload: response.data.access_token });
       setLoading(false);
-      setUsername("");
-      setPassword("");
       navigation.navigate("Logged In");
     } catch (error) {
       setLoading(false);
       console.log("Error logging in!");
       console.log(error);
       setErrorText(error.response.data.description);
-      if ((error.response.status = 404)) {
-        setErrorText("User does not exist");
-      }
     }
   }
 
@@ -99,7 +93,6 @@ export default function SignInSignUpScreen({ navigation }) {
           style={styles.textInput}
           placeholder="Username:"
           placeholderTextColor="#003f5c"
-          value={username}
           onChangeText={(username) => setUsername(username)}
         />
       </View>
@@ -110,7 +103,6 @@ export default function SignInSignUpScreen({ navigation }) {
           placeholder="Password:"
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
-          value={password}
           onChangeText={(pw) => setPassword(pw)}
         />
       </View>
@@ -129,6 +121,7 @@ export default function SignInSignUpScreen({ navigation }) {
         </View>
       )}
 
+      <View />
       <View>
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
@@ -136,6 +129,7 @@ export default function SignInSignUpScreen({ navigation }) {
             onPress={isLogIn ? login : signUp}
           >
             <Text style={styles.buttonText}>
+              {" "}
               {isLogIn ? "Log In" : "Sign Up"}{" "}
             </Text>
           </TouchableOpacity>
@@ -147,19 +141,19 @@ export default function SignInSignUpScreen({ navigation }) {
         </View>
       </View>
       <Text style={styles.errorText}>{errorText}</Text>
-
       <TouchableOpacity
         onPress={() => {
           LayoutAnimation.configureNext({
-            duration: 700, // milli seconds
+            duration: 200,
             create: { type: "linear", property: "opacity" },
-            update: { type: "spring", springDamping: 0.2 },
+            update: { type: "spring", springDamping: 0.6 },
           });
           setIsLogIn(!isLogIn);
           setErrorText("");
         }}
       >
         <Text style={styles.switchText}>
+          {" "}
           {isLogIn
             ? "No account? Sign up now."
             : "Already have an account? Log in here."}
