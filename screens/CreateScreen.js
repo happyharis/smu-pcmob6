@@ -7,13 +7,34 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { lightStyles, commonStyles } from "../styles/commonStyles";
+import axios from "axios";
+import { API, API_CREATE } from "../constants/API";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CreateScreen({ navigation }) {
   const styles = { ...lightStyles, ...commonStyles };
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  function savePost() {}
+  // delete the savePost before you copy paste
+  async function savePost() {
+    const post = {
+      title: title,
+      content: content,
+    };
+    const token = await AsyncStorage.getItem("token");
+    try {
+      console.log(token);
+      const response = await axios.post(API + API_CREATE, post, {
+        headers: { Authorization: `JWT ${token}` },
+      });
+      console.log(response.data);
+      navigation.navigate("Index", { post: post });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={{ margin: 20 }}>
