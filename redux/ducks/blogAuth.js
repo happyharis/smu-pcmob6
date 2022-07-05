@@ -13,7 +13,7 @@ export const logOutAction = (payload) => ({
 
 const initialState = {};
 
-export default (state = initialState, action) => {
+export default function blogAuthReducer(state = initialState, action) {
   switch (action) {
     case LOG_IN:
       return { ...state, token: action.payload };
@@ -23,4 +23,4 @@ export default (state = initialState, action) => {
     default:
       return state;
   }
-};
+}
