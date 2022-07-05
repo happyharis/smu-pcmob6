@@ -73,7 +73,6 @@ export default function IndexScreen() {
   }
 
   async function deletePost(id) {
-    const token = useSelector((state) => state.auth.token);
     console.log("Deleting " + id);
     try {
       const response = await axios.delete(API + API_POSTS + `/${id}`, {
