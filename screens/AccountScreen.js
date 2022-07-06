@@ -1,13 +1,16 @@
+/* eslint-disable react/prop-types */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Animated,
   Image,
   Switch,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { API, API_WHOAMI } from "../constants/API";
 import { changeModeAction } from "../redux/ducks/accountPref";
@@ -26,6 +29,15 @@ export default function AccountScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const styles = { ...commonStyles, ...(isDark ? darkStyles : lightStyles) };
+  const picSize = new Animated.Value(200);
+
+  function changePicSize() {
+    Animated.spring(picSize, {
+      toValue: 300,
+      duration: 2500,
+      useNativeDriver: false,
+    }).start();
+  }
   async function getUsername() {
     console.log("---- Getting user name ----");
     console.log(`Token is ${token}`);
@@ -77,14 +89,19 @@ export default function AccountScreen({ navigation }) {
         {" "}
         Hello {username} !
       </Text>
-      <Image
-        source={{ uri: profilePicture }}
-        style={{ width: 250, height: 250, borderRadius: 200 }}
-      />
+      {!profilePicture ? (
+        <View />
+      ) : (
+        <TouchableWithoutFeedback onPress={changePicSize}>
+          <Animated.Image
+            source={{ uri: profilePicture }}
+            style={{ width: picSize, height: picSize, borderRadius: 200 }}
+          />
+        </TouchableWithoutFeedback>
+      )}
       <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
         <Text style={{ marginTop: 10, fontSize: 20, color: "#0000EE" }}>
-          {" "}
-          No profile picture. Click to take one.{" "}
+          No profile picture. Click to take one.
         </Text>
       </TouchableOpacity>
       <View
