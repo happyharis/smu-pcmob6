@@ -16,7 +16,7 @@ export default function CameraScreen({ navigation }) {
   const cameraRef = useRef(null);
 
   async function showCamera() {
-    const { status } = await Camera.requestPermissionsAsync();
+    const { status } = await Camera.requestCameraPermissionsAsync();
     setHasPermission(status === "granted");
     if (hasPermission === false) {
       Alert.alert("Error: No access given");

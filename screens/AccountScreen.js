@@ -31,12 +31,26 @@ export default function AccountScreen({ navigation }) {
   const styles = { ...commonStyles, ...(isDark ? darkStyles : lightStyles) };
   const picSize = new Animated.Value(200);
 
+  const sizeInterpolation = {
+    inputRange: [0, 0.5, 1],
+    outputRange: [200, 300, 200],
+  };
+
   function changePicSize() {
-    Animated.spring(picSize, {
-      toValue: 300,
-      duration: 2500,
-      useNativeDriver: false,
-    }).start();
+    Animated.loop(
+      Animated.sequence([
+        Animated.spring(picSize, {
+          toValue: 300,
+          duration: 2500,
+          useNativeDriver: false,
+        }),
+        Animated.spring(picSize, {
+          toValue: 200,
+          duration: 2500,
+          useNativeDriver: false,
+        }),
+      ])
+    ).start();
   }
   async function getUsername() {
     console.log("---- Getting user name ----");
@@ -94,8 +108,12 @@ export default function AccountScreen({ navigation }) {
       ) : (
         <TouchableWithoutFeedback onPress={changePicSize}>
           <Animated.Image
-            source={{ uri: profilePicture }}
-            style={{ width: picSize, height: picSize, borderRadius: 200 }}
+            source={{ uri: profilePicture?.uri }}
+            style={{
+              width: picSize.interpolate(sizeInterpolation),
+              height: picSize.interpolate(sizeInterpolation),
+              borderRadius: 200,
+            }}
           />
         </TouchableWithoutFeedback>
       )}
